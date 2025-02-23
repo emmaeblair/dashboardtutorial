@@ -1,24 +1,81 @@
-@use '../util/' as *;
+@use '../util' as *;
+// https://codepen.io/SaraSoueidan/pen/jpBbrq/?editors=1100
 
 .toggle {
+    display: grid;
+    grid-template-columns: 1fr rem(60) 1fr;
+    grid-template-rows: repeat(2, 18px);
+    gap: rem(12);
     border: none;
-
-    &__wrapper {
+    
+    label {
+        &[for='dark'] {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+            justify-self: end;
+        }
+        &[for='system'] {
+            grid-column: 1 / 4;
+            grid-row: 2 / 3;
+            justify-self: center;;
+        }
+        &[for='light'] {
+            grid-column: 3 / 4;
+        }
     }
 
-    input[type='radio'] {
+    &__wrapper {
+        position: relative;
+        grid-column: 2 / 3;
+        grid-row: 1 / 2;
+        height: rem(24);
+    }
+
+    input[type="radio"] {
+        opacity: 0;
+        margin: 0 -2px 0 -2px;
+        width: rem(20);
+        height: rem(24);
+        position: relative;
     }
 
     &__background {
+        display: block;
+        height: 100%;
+        position: absolute;
+        width: 100%;
+        top: 0;
+        border-radius: rem(12);
+        overflow: hidden;
+        background: linear-gradient(
+            225deg, 
+            var(--toggle-bg-end) 0%,
+            var(--toggle-bg-start) 98.02%
+        );
+        pointer-events: none;
     }
 
     &__button {
-        width: rem(16);
-        height: rem(16);
+        position: absolute;
+        left: rem(3);
+        top: rem(3);
+        right: 100%;
+        width: rem(18);
+        height: rem(18);
         border-radius: 50%;
-        background-color: var(--toggle-lighttheme);
+        background-color: var(--dark-bg);
+        transition: all 150ms ease-in-out;
     }
 
-    label {
+    #light:checked ~ .toggle__button {
+        left: calc(100% - 21px);
+        right: 3px;
     }
+
+    #system:checked ~ .toggle__button {
+        left: 50%;
+        right: auto;
+        transform: translate(-50%);
+    }
+
 }
